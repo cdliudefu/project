@@ -1,0 +1,107 @@
+
+@rem:37.5px;
+
+//.px2rem(@px){
+//  @return (@px/@rem)*1rem;
+//}
+html{
+  background:#f8f8f8;
+}
+.header{
+  height: (40px/@rem)*1rem;
+  width:100%;
+  background-color: #6170b1;
+  padding-left:(32px/@rem)*1rem;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  .header-item{
+    list-style-type:none;
+    float:left;
+    color:#D1DFB7;
+    font-size:(16px/@rem)*1rem;
+    margin-right:(20px/@rem)*1rem;
+    line-height:(40px/@rem)*1rem;
+    &:nth-child(2){
+      color:#fff;
+      font-size:(17px/@rem)*1rem;
+    }
+  }
+}
+
+.banber-content{
+  position:relative;
+  .banner{
+    display:block;
+    width:100%;
+    height:(220px/@rem)*1rem;
+  }
+  .banner-title{
+    position:absolute;
+    left:(15px/@rem)*1rem;
+    bottom:(15px/@rem)*1rem;
+    font-size:(18px/@rem)*1rem;
+    color:#ffffff;
+    font-family:"Lucida Sans Unicode","Lucida Grande",sans-serif;
+  }
+}
+
+.new-content{
+  .news-item{
+    height:(90px/@rem)*1rem;
+    padding-left:(15px/@rem)*1rem;
+    padding-right:(15px/@rem)*1rem;
+    width:100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+  .item-inner{
+    position:relative;
+    overflow:hidden;
+    height:100%;
+    border-bottom:(1px/@rem)*1rem solid #e5e5e5;
+  }
+  .news-img{
+    float:left;
+    margin-top:(10px/@rem)*1rem;
+    display:block;
+    width:(95px/@rem)*1rem;
+    height:(70px/@rem)*1rem;
+    margin-right:(15px/@rem)*1rem;
+  }
+  .news-title{
+    color:#404040;
+    font-size:(15px/@rem)*1rem;
+    margin-top:(16px/@rem)*1rem;
+    line-height:(20px/@rem)*1rem;
+  }
+  .time{
+    color:#888;
+    font-size:(12px/@rem)*1rem;
+    position:absolute;
+    left:(110px/@rem)*1rem;
+    bottom:(17px/@rem)*1rem;
+  }
+
+  .num{
+    position:absolute;
+    color:#888;
+    font-size:(12px/@rem)*1rem;
+    right:(4px/@rem)*1rem;
+    bottom:(17px/@rem)*1rem;
+    &:before{
+      content:' ';
+      display:block;
+      position:absolute;
+      background-image: url('./imgs/read.png');
+      background-repeat: no-repeat;
+      width:(13px/@rem)*1rem;
+      height:(13px/@rem)*1rem;
+      top:(3px/@rem)*1rem;
+      left:(-17px/@rem)*1rem;
+    }
+  }
+
+
+}

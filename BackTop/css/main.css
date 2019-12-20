@@ -1,0 +1,35 @@
+.box div{
+  height:750px;
+  width:100%;
+  margin-bottom:30px;
+}
+.box div:nth-child(1){
+  background:green;
+}
+.box div:nth-child(2){
+  background:blue;
+}
+.box div:nth-child(3){
+  background:brown;
+}
+
+.back-top{
+  border:1px solid yellowgreen;
+  background:yellowgreen;
+  color:#fff;
+  font-size:14px;
+  width:60px;
+  height:30px;
+  line-height:30px;
+  text-align:center;
+  position:fixed;
+  right:30px;
+  bottom:20px;
+  cursor:pointer;
+  opacity:0.7;
+  filter:alpha(opacity=70);
+}
+.back-top:hover{
+  opacity:1;
+  filter:alpha(opacity=100);
+}

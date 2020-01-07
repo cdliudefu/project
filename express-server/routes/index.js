@@ -1,6 +1,6 @@
 var express = require('express'),
     router = express.Router();
-
+//首页
 router.get('/', function(req, res) {
   if(req.cookies.islogin)
   { 

@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>html5本地存储</title>
+  <style>
+  *{
+    margin: 0;
+    padding: 0;
+  }
+  #container {
+    padding: 10px;
+    font-size: 14px;
+  }
+  #container a {
+    text-decoration: none;
+    margin-right: 5px;
+    cursor: pointer;
+  }
+  #container button {
+    padding:5px 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+  }
+  #tabGoods {
+    border-collapse: collapse;
+    border-spacing: none;
+    width:30%;
+    text-align: center;
+  }
+  #tabGoods th,#tabGoods td {
+    border:1px solid #ccc;
+    padding:5px 10px;
+  }
+  #tabGoods th {
+    background: pink;
+  }
+
+  #form {
+    margin-top:20px;
+    width:20%;
+    padding:20px;
+    border:1px solid #ccc;
+  }
+  #form p{
+    height: 34px;
+    line-height: 34px;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+   #form p input {
+     height:24px;
+     line-height: 24px;
+     
+   }
+  #form button {
+    padding:5px 10px;
+    margin-top:10px;
+    cursor: pointer;
+  }
+  </style>
+</head>
+<body>
+  <h3>1、localStorage本地存储</h3>
+  <p>不主动清除将永久保存，</p>
+  <button onclick="add_localstorage()">添加</button>
+  <button onclick="get_localstorage()">取值</button>
+  <button onclick="update_localstorage()">修改</button>
+  <button onclick="del_localstorage()">删除</button>
+  <p ><label>值为：</label><span id="msg"></span></p>
+  <h3>2、sessionStorage本地存储</h3>
+  <p>关闭窗口将消失</p>
+  <button onclick="add_sessionstorage()">添加</button>
+  <button onclick="get_sessionstorage()">取值</button>
+  <button onclick="update_sessionstorage()">修改</button>
+  <button onclick="del_sessionstorage()">删除</button>
+  <p ><label>值为：</label><span id="msg1"></span></p>
+  <h3>为本地存储添加监听事件：storage事件</h3>
+  <p>在本窗口触发storage事件，只会触发同域下的其他窗口，本窗口不会触发。</p>
+  <p>
+    <hr/>
+  </p>
+  <h3>3、Web SQL Database离线数据库</h3>
+  <p>引入了一套使用SQL来操作客户端数据库的API，在HTML5环境下可以用JS执行CRUD的web数据库</p>
+  <div id="container">
+    <button id="createTable">创建表</button>
+    <button id="dropTable">删除表</button>
+    <table id="tabGoods">
+      <tr>
+        <th>编号</th>
+        <th>名称</th>
+        <th>价格</th>
+        <th colspan="2">操作</th>
+      </tr>
+      <tbody id="goodsList"></tbody>
+    </table>
+    <fieldset id="form">
+      <legend>商品信息</legend>
+      <p><label for="name">名称：</label><input type="text" id="name" value=""></p>  
+      <p><label for="price">价格：</label><input type="text" id="price" value=""></p>
+      <p>
+        <input type="hidden" id="goodsId">
+        <button id="insert">添加</button>
+        <button id="update">更新</button>
+      </p>
+    </fieldset>
+    <div>
+      <p>日志</p>
+      <p id="info"></p>
+    </div>
+  </div>
+
+
+
+  <script>
+ //==========loaclStorage=====================
+  function add_localstorage(){
+    //向本地存储中添加name
+    localStorage.setItem('name',JSON.stringify({name:'zhangsan',age:20,sex:'男'}))
+  }
+
+  function get_localstorage(){
+    msg.innerHTML = localStorage.getItem('name')
+  }
+  function update_localstorage(){
+    var obj = localStorage.getItem('name')
+    obj = JSON.parse(obj)
+    obj.name='李四'
+    localStorage.setItem('name',JSON.stringify(obj))
+  }
+  function del_localstorage(){
+    //根据key删除指定的值
+    // localStorage.removeItem('name')
+    //清除全部
+    localStorage.clear()
+  }
+
+  //============sessionStorage====================
+  function add_sessionstorage(){
+    //向本地存储中添加name
+    sessionStorage.setItem('keyname',JSON.stringify({name:'zhangsan',age:20,sex:'男'}))
+  }
+
+  function get_sessionstorage(){
+    msg1.innerHTML = sessionStorage.getItem('keyname')
+  }
+  function update_sessionstorage(){
+    var obj = sessionStorage.getItem('keyname')
+    obj = JSON.parse(obj)
+    obj.name='session李四'
+    sessionStorage.setItem('keyname',JSON.stringify(obj))
+  }
+  function del_sessionstorage(){
+    //根据key删除指定的值
+    // sessionStorage.removeItem('keyname')
+    //清除全部
+    sessionStorage.clear()
+  }
+  
+ //==============storage事件==========================
+ // storage改变的时候，触发这个事件的会调用同域下的其他窗口的storage事件，本身即本窗口
+ // 不会触发这个事件
+  window.addEventListener('storage',function(obj){
+    console.log('storage:',obj)
+  },true)
+  </script>
+  <script>
+    //Web SQL database
+    //定义当前应用的对象
+    var dbApp = {
+      //串讲名称为products,版本为1.0，描述为产品数据库，数据库大小为3M
+      openDb:function(){
+        /**
+        openDatabase使用现有数据库或新建数据库来创建数据库对象，有5个参数
+        *1、数据库名字，数据库版本号，显示名字，数据库保存数据的大小，回调函数
+        *如果提供了回调函数，回调函数用以调用 changeVersion() 函数，不管给定什么样的版本号，回调函数将把数据库的版本号设置为空。如果没有提供回调函数，则以给定的版本号创建数据库。
+        */
+        this.db = openDatabase('products',1.0,'产品数据库',1024*1024*3,function(){
+          this.log('创建或打开数据库完成')
+        })
+      },
+      log:function(msg){
+        document.querySelector('#info').innerHTML+= '<p>'+msg+'</p>'
+      },
+      bindEvent:function(){
+        document.querySelector('#createTable').onclick = this.createTable
+        document.querySelector('#dropTable').onclick = this.dropTable
+        document.querySelector('#insert').onclick = this.insert
+        document.querySelector('#update').onclick = this.update
+      },
+      /**
+      *执行sql的通用方法，result.rowsAffected影响行数
+      *callback执行成功时的回调方法
+      * 1、transaction方法：
+      * 用以处理事务，当一条语句执行失败的时候，整个事务回滚，有3个参数
+      * 包含事务的内容的一个方法，执行成功回调函数可选，执行失败回调函数可选
+      * 2、executeSql方法：
+      * 该方法用以执行SQL语句，返回结果，有4个参数
+      * 查询字符串、用以替换查询字符串中问号的参数、执行成功回调函数可选、执行失败回调函数可选
+      */
+      exeSql:function(sql,title,param,callback){
+        title = title || '操作'
+        this.db.transaction(function(tx){
+          tx.executeSql(sql,param||[],function(tx,result){
+            dbApp.log(title+'成功')
+            callback && callback(result)
+          },function(tx,error){
+            dbApp.log(title+'失败'+error.message)
+          })
+        })
+      },
+      //展示加载数据
+      showData(){
+        dbApp.exeSql('select id,name,price from goods','查询',[],function(result){
+          var results = result.rows || []
+          var tbody = document.querySelector('#goodsList')
+          var tr = ''
+          results = Array.from(results)
+          results.forEach(function(item){
+              tr += '<tr>'
+              tr+='<td>'+item.id+'</td>'
+              tr+='<td>'+item.name+'</td>'
+              tr+='<td>'+item.price+'</td>'
+              tr+='<td href="javascript:;" onclick="dbApp.edit('+item.id+',this)"><a>编辑</a></td>'
+              tr+='<td href="javascript:;" onclick="dbApp.delete('+item.id+',this)"><a>删除</a></td></tr>'
+          })
+          tbody.innerHTML = tr
+        })
+      },
+      createTable:function(){
+        dbApp.exeSql('create table if not exists goods(id integer primary key autoincrement,name text not null,price double)','创建表')
+        dbApp.log('创建表')
+      },
+      dropTable:function(){
+        dbApp.exeSql('drop table if exists goods','删除表')
+      },
+      insert:function(){
+        var name = document.querySelector('#name').value
+        var price = document.querySelector('#price').value
+        dbApp.exeSql('insert into goods(name,price) values(?,?)','添加',[name,price],function(){
+          dbApp.showData()
+          document.querySelector('#name').value = ''
+          document.querySelector('#price').value = ''
+          document.querySelector('#goodsId').value = ''
+        })
+      },
+      edit:function(id){
+        dbApp.exeSql('select id, name, price from goods where id=?','编辑',[id],function(result){
+          document.querySelector('#name').value = result.rows[0].name
+          document.querySelector('#price').value = result.rows[0].price
+          document.querySelector('#goodsId').value = result.rows[0].id
+          dbApp.log('修改后请保存')
+        })
+      },
+      update:function(){
+        var name = document.querySelector('#name').value
+        var price = document.querySelector('#price').value
+        var goodsId = document.querySelector('#goodsId').value
+        if(goodsId){
+          dbApp.exeSql('update goods set name=?,price=? where id=?','更新',[name,price,goodsId],function(result){
+            dbApp.showData()
+            document.querySelector('#goodsId').value=''
+          })
+        }else{
+          dbApp.log('请选择需要更新的记录')
+        }
+        
+      },
+      delete:function(id,link){
+        dbApp.exeSql('delete from goods where id=?','删除',[id],function(result){
+          if(link && link.parentNode){
+            link.parentNode.remove()
+          }
+        })
+      },
+      //初始化
+      init:function(){
+        //打开或创建数据库
+        this.openDb()
+        //绑定事件
+        this.bindEvent()
+        //展示数据
+        this.showData()
+        this.log('初始化完成')
+      }
+    }
+    dbApp.init()
+  
+  </script>
+</body>
+</html>

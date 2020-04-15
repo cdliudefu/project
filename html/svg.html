@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>svg hello</title>
+</head>
+<body>
+  <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+    <circle cx="100" cy="100" r="30" stroke="blue" stroke-width="10" fill="red"/>
+  </svg>
+  <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="200" height="200">
+			<line x1="0" y1="0" x2="100" y2="200" style="stroke:rgb(0,0,255);stroke-width:3" />
+  </svg>
+  <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="200" height="200">
+			<ellipse cx="100" cy="100" rx="50" ry="30" style="fill:yellow;stroke:dodgerblue;stroke-width:5" />
+  </svg>
+  	<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="200" height="200">
+			<text x="0" y="50" fill="blue" style="font-size:15px; font-family: 'microsoft yahei';text-align:center;">HELLO WORLD</text>
+			<rect x="0" y="60" width="190" height="190" style="fill:blue;stroke:pink;stroke-width:5;
+fill-opacity:0.1;stroke-opacity:0.9" />
+    </svg>
+  <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="200" height="200">
+      <text x="0" y="50" fill="red">向下兼容与图标</text>
+      <image xlink:href="avatar.png" width="20" height="20" src="avatar.png" ></image>
+    </svg>
+    
+  <p>引入svg方法</p>
+  <h3>embed引入：优势：所有主要浏览器都支持，并允许使用脚本 缺点：不推荐在HTML4和XHTML中使用（但在HTML5允许）</h3>
+  <embed src="me.svg" type="image/svg+xml" width="108" height="108" />
+  <h3>object引入</h3>
+  <object data="me.svg" type="image/svg+xml" width="108" height="108"></object> 优势：所有主要浏览器都支持，并支持HTML4，XHTML和HTML5标准 缺点：不允许使用脚本。
+  <h3>iframe引入</h3>
+  <iframe src="me.svg" frameborder="0" width="108" height="108"></iframe> 优势：所有主要浏览器都支持，并允许使用脚本 缺点：不推荐在HTML4和XHTML中使用（但在HTML5允许）
+  <h3>image引入</h3>
+  <img src="me.svg" width="108" height="108" />
+  <h3>直接页面嵌入</h3>
+  <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="108" height="108">
+			<circle cx="54" cy="54" r="50" stroke="blue" stroke-width="2" fill="blue" />
+		</svg>
+</body>
+</html>

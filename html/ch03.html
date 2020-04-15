@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>canvas+webgl+svg</title>
+  <style>
+  canvas{
+    border:1px solid #ccc;
+  }
+  #cv2 {
+    position: relative;
+  }
+  .dv {
+    width:200px;
+    height: 200px;
+    line-height: 200px;
+    background: pink;
+    text-align: center;
+  }
+  #cv6 {
+    position: relative;
+  }
+  </style>
+</head>
+<body>
+  <canvas id="canvas" width="400" height="300">
+    绘制线，包括描边，填充
+  </canvas>
+   <canvas id="cv2" width="400" height="300">
+    绘制鼠标移动画线
+  </canvas>
+  <canvas id="cv3" width="400" height="300">
+    你浏览器不支持
+  </canvas>
+  <canvas id="cv4" width="400" height="300">
+    绘制圆形，绘制图像
+  </canvas>
+  <img id="avatar" src="./avatar.png" hidden/>
+  <canvas id="cv5" width="400" height="300">
+    绘制文字
+  </canvas>
+  <canvas id="cv6" width="600" height="300">
+    随机颜色和简单动画
+  </canvas>
+</body>
+<script>
+  //设置线宽，线的颜色，描边和填充
+var cv = document.querySelector('#canvas')
+var ctx = cv.getContext('2d')
+//设置线宽
+ctx.lineWidth = 10
+//设置线的颜色
+ctx.strokeStyle = 'blue'
+//将画笔移动到0坐标
+ctx.moveTo(0,0)
+//画线到500，400的坐标
+ctx.lineTo(400,300)
+//执行画线描边
+ctx.stroke()
+
+ctx.beginPath() // 清空子路径，一般用于开始路径的创建
+ctx.lineWidth = 20 //线宽
+ctx.strokeStyle = 'red' // 设置线的颜色
+ctx.lineTo(0,0)
+ctx.lineTo(0,400)
+ctx.lineTo(400,300)
+ctx.closePath() // 闭合
+
+// ctx.stroke()//描边
+
+ctx.fillStyle = 'lightgreen' // 填充颜色
+ctx.fill() //填充
+
+
+
+
+
+
+</script>
+<script>
+  //通过鼠标移动画线
+ var cv2 = document.querySelector('#cv2')
+ var ctx2 = cv2.getContext('2d')
+ //设置线宽
+ ctx2.lineWidth =10
+ //设置线的颜色
+ ctx2.strokeStyle = 'blue'
+ cv2.onmouseup = function(){
+  cv2.onmousemove = function(e){
+    //设置线的当前客户端的x与y坐标
+    ctx2.lineTo(e.offsetX,e.offsetY);
+    //执行画线
+    ctx2.stroke()
+  }
+ }
+
+
+</script>
+<script>
+  //绘制矩形空心:strokeRect,实心矩形：fillRect，清除指定区域:clearRect
+ var cv3 = document.querySelector('#cv3')
+ var ctx3 = cv3.getContext('2d')
+// 设置线宽
+ ctx3.lineWidth = 5
+ //设置线颜色
+ ctx3.strokeStyle = 'dodgerblue'
+
+//画一个空心的矩形
+ ctx3.strokeRect(10,10,100,100)
+
+ //画个实心的矩形
+ ctx3.fillStyle = 'aquamarine'
+ ctx3.fillRect(120,10,100,100)
+
+ ctx3.fillStyle = 'red'
+ ctx3.fillRect(230,10,100,100)
+
+//清除指定的矩形区域
+ctx3.clearRect(250,50,90,90)
+
+ctx3.beginPath()
+// 画一段圆弧，参数分别是圆心坐标，半径，起始角度，结束角度，是否逆时针
+ctx3.lineWidth = 5
+ctx3.strokeStyle = 'red'
+ctx3.arc(100,220,50,0,Math.PI*2,false)
+ctx3.stroke()
+ctx3.closePath()
+//填充圆形
+ctx3.beginPath()
+ctx3.fillStyle = 'aquamarine'
+ctx3.arc(220,220,50,0,Math.PI*2,false)
+ctx3.fill()
+ctx3.closePath()
+
+</script>
+<script>
+    window.onload = function(){
+      var cv4 = document.querySelector('#cv4')
+      var ctx4 = cv4.getContext('2d')
+
+      ctx4.lineWidth = 2
+      ctx4.strokeStyle = 'blue'
+      ctx4.moveTo(0,0)
+      ctx4.strokeRect(0,0,400,300)
+      //将图片绘制到画布上
+      var avatar = document.querySelector('#avatar')
+      ctx4.drawImage(avatar,20,20)
+    }
+</script>
+<script>
+ window.onload = function(){
+   var cv5 = document.querySelector('#cv5')
+   var ctx5 = cv5.getContext('2d')
+
+   ctx5.lineWidth = 2
+   ctx5.strokeStyle = 'dodgerblue'
+   ctx5.moveTo(0,0)
+   ctx5.strokeRect(0,0,400,300)
+
+   ctx5.font = '40px microsoft yahei'
+   ctx5.strokeText('HELLO WORLD',20,100)
+
+   ctx5.beginPath()
+   ctx5.fillStyle = 'red'
+   ctx5.fillText('HELLO CACANS',20,200)
+   ctx5.closePath()
+
+ }
+</script>
+
+<script>
+  window.onload = function(){
+    //随机对象
+    var Circle = {
+      r:10,
+      randomColor:function(){
+        return '#'+parseInt(Math.random()*16777216).toString(16)
+      },
+      getNum:function(min,max){
+        return parseInt(Math.random()*(max-min))+min
+      },
+      run:function(){
+        //获取画布
+        this.caca = document.querySelector('#cv6')
+        //获取绘图上下文
+        this.ctx6 = this.caca.getContext('2d')
+        //启动定时器运行
+        // setInterval(this.draw, 100);
+        this.bindEvent()
+      },
+      draw:function(){
+        Circle.ctx6.beginPath()
+        //设置随机线宽度
+        Circle.ctx6.lineWidth = Circle.getNum(1,10)
+        // 设置随机线颜色
+        Circle.ctx6.strokeStyle = Circle.randomColor()
+        //绘制随机圆
+        Circle.ctx6.arc(Circle.getNum(1,600),Circle.getNum(1,300),Circle.r,0,Math.PI*2)
+        //描绘
+        Circle.ctx6.stroke()
+        Circle.ctx6.closePath()
+        Circle.r+=10
+        if(Circle.r>300){
+          Circle.ctx6.clearRect(0,0,600,300)
+          Circle.r = 10
+        }
+
+      },
+      bindEvent:function(){
+        this.caca.onmousemove = function(e){
+          Circle.ctx6.beginPath()
+          Circle.ctx6.lineWidth = Circle.getNum(1,10)
+          Circle.ctx6.strokeStyle = Circle.randomColor()
+          Circle.ctx6.arc(e.offsetX,e.offsetY,Circle.r,0,Math.PI*2)
+          Circle.ctx6.stroke()
+          Circle.ctx6.closePath()
+          Circle.r+=10;
+          if(Circle.r>300){
+            Circle.ctx6.clearRect(0,0,600,300)
+            Circle.r = 10
+          }
+        }
+      }
+    }
+    Circle.run()
+  }
+</script>
+
+</html>

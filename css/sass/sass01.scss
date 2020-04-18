@@ -1,0 +1,122 @@
+// 1、定义变量
+$width:1004px;
+$color:pink;
+
+body{
+  width: $width;
+  height: $width/2;
+  background:$color;
+}
+//变量不存在提升，不覆盖前面的同名变量
+$width:100px;
+$color:red;
+.cls2{
+  $color:green;
+  width:$width;
+  height: $width/2;
+  background:$color;
+}
+
+//2、嵌套
+// sass可以进行选择器的嵌套，标识层级关系，看齐来很优雅整齐
+.cls3{
+  width: 100px;
+  .cls1{
+    height: 200px;
+  }
+  .cls2{
+    color:blue;
+  }
+}
+
+//复杂的嵌套
+.news {
+  //忽略root嵌套
+  @at-root .news_title{
+    width:10px;
+  }
+
+  //合并嵌套 在根节点.news下
+  .news_content{
+    width:20px;
+  }
+
+  //组合嵌套
+  &_content1{ //组合了根节点.news成为当前标签的一部分
+    width:20px;
+    &_content2{ //组合了根节点.news和父节点.news_content1成为当前标签的一部分
+      height:20px;
+    }
+  }
+}
+
+// 3导入@import
+
+//4、mixin混入
+//可以用mixin定义一些代码片段，可传参数，方便日后根据需要调用，
+// 定义使用关键字@mixin，调用时使用@include
+//定义mixin
+@mixin circle($size:20px,$color:lightbule){
+  width: $size;
+  height: $size;
+  border-radius: $size/2;
+  background:$color
+}
+
+.cls4{
+  @include circle(100px, red);
+}
+.cls4-1{
+  @include circle(200px)
+}
+.cls4-2{
+  @include circle(200px,lightgreen)
+}
+
+//5、扩展或继承
+// sass可通过@extend来实现代码的组合声明，
+.state {
+  background: blue;
+  border:1px solid lightblue;
+}
+.success{
+  @extend .state;
+  background:green;
+}
+.error{
+  @extend .state;
+  border:2px solid red;
+}
+
+// 6、运算 55-6+8
+.cls6{
+  width: (100px+10px)/2-20px%7px+1px*8;
+}
+
+// 7、函数
+$pcolor:#999ccc;
+.cls7 a{
+  color:$pcolor;
+  &:hover {
+    //变暗15%
+    background: darken($pcolor,15%);
+    // 变亮5%
+    color: lighten($pcolor,5%);
+  }
+}
+
+//8 、流程控制
+//sass中和其他程序语言一样也有流程控制语句，if、for、each、while、指令、函数等
+$blur:lightblue;
+@for $i from 1 through 10 {
+  .font-#{$i} {
+    //计算字体大小
+    font-size:12px+$i*2px;
+    //颜色变暗
+    color:darken($blur,$i*2);
+    //如果i是3的倍数，则下划线
+    @if $i%3==0{
+      text-decoration: underline;
+    }
+  }
+}

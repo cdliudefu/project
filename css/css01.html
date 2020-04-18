@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    .dv{
+      width:200px;
+      height: 200px;
+      background: red;
+      padding:10px;
+      border:10px solid blue;
+      box-sizing: border-box;
+      margin:20px;
+    }
+    #dv1{
+      width:0;
+      height: 0;
+      border:100px solid blue;
+      border-color: blue transparent transparent transparent;
+    }
+
+    #dv2{
+      position: relative;
+      width: 100px;
+      height: 90px;
+    }
+
+    #dv2:after,#dv2:before {
+      position: absolute;
+      content: '';
+      left: 50px;
+      top:0;
+      width: 50px;
+      height: 80px;
+      background: red;
+      border-radius: 50px 50px 0 0;
+      transform: rotate(-45deg);
+      transform-origin: 0 100%;
+    }
+    #dv2:after{
+      left:0px;
+      transform: rotate(45deg);
+      transform-origin: 100% 100%;
+    }
+
+    #dv3,#dv4 {
+      width:200px;
+      height: 200px;
+      background: red;
+      border:1px solid red;
+      /* display: inline-block; */
+      overflow: hidden;
+
+    }
+    #dv3 {
+      margin-bottom: 20px;
+      margin-right: 20px;
+    }
+
+    #dv4{
+      margin-top:40px;
+      margin-left: 40px;
+    }
+  #div0 {
+                width: 490px;
+                height: 90px;
+                border: 5px solid dodgerblue;
+                margin: 0 auto;
+                padding: 10px;
+            }
+            
+            #div0 .subItem {
+                float: left;
+                width: 90px;
+                height: 90px;
+                background: orangered;
+                margin-right: 10px;
+            }
+  </style>
+</head>
+<body>
+
+  <div class="dv"></div>
+  <div id="dv1"></div>
+  <div id="dv2"></div>
+<div style="height:90px; margin-bottom:-30px; width:90px; background-color: red;">X</div>
+        <div style="height:90px; margin-top:30px;width:70px; background-color: blue;">Y</div>
+  <div style="clear:both;">
+  <div id="dv3"></div>
+  <div id="dv4"></div>
+  </div>
+<div id="div0">
+  <div style="margin-right: -10px;">
+      <div class="subItem">1</div>
+      <div class="subItem">2</div>
+      <div class="subItem">3</div>
+      <div class="subItem">4</div>
+      <div class="subItem">5</div>
+  </div>
+</div>
+  <script>
+   window.addEventListener('storage',function(obj){
+    console.log('storage:',obj)
+  },true)
+  
+  </script>
+</body>
+</html>

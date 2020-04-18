@@ -1,0 +1,122 @@
+//1、 定义变量
+@color: #4d926f;
+@bgColor: lightgreen;
+@borderColor: lightblue;
+@fontSize: 14px;
+
+#header {
+  color: @color;
+  background: @bgColor;
+}
+
+//2、混入mixins类似函数或宏
+//定义函数
+.borderRadius(@radius:3px) {
+  -moz-border-radius: @radius;
+  -webkit-border-radius: @radius;
+  border-radius: @radius;
+}
+
+//使用函数
+#div1 {
+  width: 100px;
+  height: 100px;
+  border: 1px solid @borderColor;
+  .borderRadius(10px);
+}
+
+.btn {
+  padding: 5px 10px;
+  //使用默认值
+  .borderRadius();
+}
+
+//定义函数
+.circle(@width:100px,@color:lightblue) {
+  width: @width;
+  height: @width;
+  background: @color;
+  border-radius: @width / 2;
+}
+.boxShadow(@x:0,@y:0,@blur:1px,@color:#000) {
+  box-shadow: @arguments;
+}
+//使用
+.cls {
+  .circle(200px, red);
+  .boxShadow(5px, 5px);
+}
+
+.mv {
+  .circle(200px, red);
+  .sm {
+    color: @color;
+    font-size: @fontSize;
+  }
+}
+
+//3、运算
+@base: 5%;
+@filler: @base*2;
+@other: @base+ @filler;
+@base-color: lightblue;
+
+.cls41 {
+  color: #888/4;
+  background-color: @base-color+#111;
+  height: 100%/2 + @filler;
+  width: 10/2 + @filler;
+  border-color: lighten(@color, 10%);
+}
+
+//4、继承
+.animal {
+  background-color: black;
+  color: white;
+}
+
+.bear {
+  &:extend(.animal);
+  background-color: brown;
+}
+.mouse {
+  &:extend(.animal);
+}
+
+//5、作用域，同一级的变量后者覆盖前者，
+//内部变量优先级高于外部变量，变量只在同一个文件中有效
+@len: 10px;
+.cls61 {
+  @len: 20px;
+  height: @len;
+}
+
+.cls62 {
+  width: @len;
+}
+@len: 30px;
+.cls63 {
+  height: @len;
+}
+
+/*6、循环
+* 在less中，混合可以调用它自身,这样，当一个混合递归调用自己
+*再结合模式匹配，就可以写循环结构
+*/
+.loop(@counter) when (@counter > 0) {
+  .loop((@counter - 1)); //递归调用自身
+  width: (10px * @counter); //每次调用时产生的样式代码
+}
+div {
+  .loop(3); //调用循环
+}
+
+//生成栅格系统
+.generate-column(@n,@i:1) when (@i=<@n) {
+  .column-@{i} {
+    width: (@i*100% / @n);
+  }
+  .generate-column(@n, (@i+1));
+}
+
+.generate-column(12);

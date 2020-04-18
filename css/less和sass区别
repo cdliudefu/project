@@ -1,0 +1,13 @@
+less和sass它们之间的相同和区别：
+
+1、相同点：
+
+- 都是css的预编译工具
+- 都可以定义变量、函数、继承等
+- 各自都有内置的全局函数
+
+2、不同点：
+
+- less定义变量用@,sass定义变量符$
+- less定义函数混入函数之间写.fuc(params){};使用时之间.fuc(传参数);  sass定义混入函数用：@mixin fuc(params){};使用时采用@include @fuc(传参数)；
+- less继承使用：&:extend(继承类名); sass继承使用@extend 继承类名
